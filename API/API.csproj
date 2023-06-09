@@ -26,7 +26,6 @@
     <None Remove="ContextFactory\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Extensions\" />
     <Folder Include="ContextFactory\" />
   </ItemGroup>
 </Project>
