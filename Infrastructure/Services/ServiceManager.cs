@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using Core.Interfaces;
 namespace Infrastructure.Services
 {
@@ -7,10 +8,10 @@ namespace Infrastructure.Services
         private readonly Lazy<ICompanyService> _companyService;
         private readonly Lazy<IEmployeeService> _employeeService;
         public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager
-            logger)
+            logger, IMapper mapper)
         {
-            _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger));
-            _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger));
+            _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger, mapper));
+            _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper));
         }
 
         public ICompanyService CompanyService
