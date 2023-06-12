@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(),
-"/nlog.config"));
+    "/nlog.config"));
 
 builder.Services.ConfigureCors();
 
@@ -23,6 +23,8 @@ builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddControllers(config => { config.RespectBrowserAcceptHeader = true; }).AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

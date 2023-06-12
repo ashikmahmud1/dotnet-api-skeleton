@@ -23,10 +23,8 @@ namespace Infrastructure.Services
         }
         public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges)
         {
-            var companies = _repository.Company.GetAllCompanies(trackChanges);
-            var companiesDto = companies.Select(c =>
-                new CompanyDto(c.Id, c.Name ?? "", string.Join(' ',
-                    c.Address, c.Country))).ToList();
+            var companies = _repository.Company.GetAllCompanies(trackChanges).ToList();
+            var companiesDto = _mapper.Map<IReadOnlyList<Company>, IReadOnlyList<CompanyDto>>(companies);
             return companiesDto;
 
         }
