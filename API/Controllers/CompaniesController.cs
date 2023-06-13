@@ -1,3 +1,4 @@
+using API.ModelBinders;
 using Core.Dtos;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +32,28 @@ namespace API.Controllers
             if (company is null)
                 return BadRequest("CompanyCreationDto object is null");
             var createdCompany = _service.CompanyService.CreateCompany(company);
-            return CreatedAtRoute("CompanyById", new { id = createdCompany.Id },
+            return CreatedAtRoute("CompanyById", new
+                {
+                    id = createdCompany.Id
+                },
                 createdCompany);
+        }
+
+        [HttpGet("collection/({ids})", Name = "CompanyCollection")]
+        public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+        {
+            var companies = _service.CompanyService.GetByIds(ids, trackChanges: false);
+            return Ok(companies);
+        }
+        
+        [HttpPost("collection")]
+        public IActionResult CreateCompanyCollection([FromBody]
+            IEnumerable<CompanyCreationDto> companyCollection)
+        {
+            var result =
+                _service.CompanyService.CreateCompanyCollection(companyCollection);
+            return CreatedAtRoute("CompanyCollection", new { result.ids },
+                result.companies);
         }
     }
 

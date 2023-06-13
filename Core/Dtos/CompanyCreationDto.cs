@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 namespace Core.Dtos
 {
     public record CompanyCreationDto
@@ -8,5 +8,7 @@ namespace Core.Dtos
         public string Address { get; init; }
 
         public string Country { get; init; }
+        
+        public IEnumerable<EmployeeCreationDto> Employees { get; init; }
     }
 }
