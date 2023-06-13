@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using Core.Dtos;
+using Core.Entities;
 using Core.Exceptions;
 using Core.Interfaces;
 namespace Infrastructure.Services
@@ -38,6 +39,17 @@ namespace Infrastructure.Services
                 throw new EmployeeNotFoundException(id);
             var employee = _mapper.Map<EmployeeDto>(employeeDb);
             return employee;
+        }
+        public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeCreationDto employeeForCreation, bool trackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, trackChanges);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            var employeeEntity = _mapper.Map<Employee>(employeeForCreation);
+            _repository.Employee.CreateEmployeeForCompany(companyId, employeeEntity);
+            _repository.Save();
+            var employeeToReturn = _mapper.Map<EmployeeDto>(employeeEntity);
+            return employeeToReturn;
         }
     }
 }

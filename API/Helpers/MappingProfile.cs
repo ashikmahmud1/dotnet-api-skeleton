@@ -12,6 +12,7 @@ namespace API.Helpers
                     opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
             CreateMap<Employee, EmployeeDto>();
             CreateMap<CompanyCreationDto, Company>();
+            CreateMap<EmployeeCreationDto, Employee>();
         }
     }
 }

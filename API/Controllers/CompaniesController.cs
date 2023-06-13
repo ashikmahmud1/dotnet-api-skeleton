@@ -26,7 +26,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCompany([FromBody] CompanyCreationDto? company)
+        public IActionResult CreateCompany([FromBody] CompanyCreationDto company)
         {
             if (company is null)
                 return BadRequest("CompanyCreationDto object is null");
