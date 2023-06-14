@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Core.Interfaces;
 namespace Infrastructure.Repositories
 {
@@ -21,6 +22,6 @@ namespace Infrastructure.Repositories
             get => _employeeRepository.Value;
         }
 
-        public void Save() => _repositoryContext.SaveChanges();
+        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

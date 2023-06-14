@@ -2,7 +2,6 @@ using API.Extensions;
 using Core.Interfaces;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,10 +30,6 @@ builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressMode
 builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
-    // Move the JSON patch input formatter to the first index of the list so it is evaluated before other formatters to handle applicable content types
-    var patchFormatter = config.InputFormatters.OfType<NewtonsoftJsonPatchInputFormatter>().First();
-    config.InputFormatters.Remove(patchFormatter);
-    config.InputFormatters.Insert(0, patchFormatter);
 }).AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddControllers();
