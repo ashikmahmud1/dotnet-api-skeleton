@@ -64,8 +64,8 @@ namespace Infrastructure.Services
             foreach (var company in companyEntities)
             {
                 _repository.Company.CreateCompany(company);
-                _repository.Save();
             }
+            _repository.Save();
             var companyCollectionToReturn =
                 _mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
             var companiesToReturn = companyCollectionToReturn.ToList();
