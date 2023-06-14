@@ -7,7 +7,8 @@ namespace Core.Interfaces
     {
         IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges);
         EmployeeDto GetEmployee(Guid companyId, Guid id, bool trackChanges);
-        EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeCreationDto
-            employeeForCreation, bool trackChanges);
+        EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto
+            employeeForForCreation, bool trackChanges);
+        void DeleteEmployeeForCompany(Guid companyId, Guid id, bool trackChanges);
     }
 }

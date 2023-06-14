@@ -36,7 +36,7 @@ namespace Infrastructure.Services
             var companyDto = _mapper.Map<CompanyDto>(company);
             return companyDto;
         }
-        public CompanyDto CreateCompany(CompanyCreationDto? company)
+        public CompanyDto CreateCompany(CompanyForCreationDto? company)
         {
             var companyEntity = _mapper.Map<Company>(company);
             _repository.Company.CreateCompany(companyEntity);
@@ -56,7 +56,7 @@ namespace Infrastructure.Services
             return companiesToReturn;
         }
         
-        public (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection (IEnumerable<CompanyCreationDto> companyCollection)
+        public (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection (IEnumerable<CompanyForCreationDto> companyCollection)
         {
             if (companyCollection is null)
                 throw new CompanyCollectionBadRequest();
@@ -71,6 +71,13 @@ namespace Infrastructure.Services
             var companiesToReturn = companyCollectionToReturn.ToList();
             var ids = string.Join(",", companiesToReturn.Select(c => c.Id));
             return (companies: companiesToReturn, ids);
+        }
+        
+        public void DeleteCompany(Guid companyId, bool trackChanges) {
+            var company = _repository.Company.GetCompany(companyId, trackChanges); if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            _repository.Company.DeleteCompany(company);
+            _repository.Save();
         }
 
     }

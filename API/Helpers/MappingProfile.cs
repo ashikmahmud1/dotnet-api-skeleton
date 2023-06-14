@@ -11,8 +11,8 @@ namespace API.Helpers
                 .ForMember(c => c.FullAddress,
                     opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
             CreateMap<Employee, EmployeeDto>();
-            CreateMap<CompanyCreationDto, Company>();
-            CreateMap<EmployeeCreationDto, Employee>();
+            CreateMap<CompanyForCreationDto, Company>();
+            CreateMap<EmployeeForCreationDto, Employee>();
         }
     }
 }

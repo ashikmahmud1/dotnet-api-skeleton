@@ -27,11 +27,11 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCompany([FromBody] CompanyCreationDto company)
+        public IActionResult CreateCompany([FromBody] CompanyForCreationDto companyFor)
         {
-            if (company is null)
+            if (companyFor is null)
                 return BadRequest("CompanyCreationDto object is null");
-            var createdCompany = _service.CompanyService.CreateCompany(company);
+            var createdCompany = _service.CompanyService.CreateCompany(companyFor);
             return CreatedAtRoute("CompanyById", new
                 {
                     id = createdCompany.Id
@@ -45,15 +45,24 @@ namespace API.Controllers
             var companies = _service.CompanyService.GetByIds(ids, trackChanges: false);
             return Ok(companies);
         }
-        
+
         [HttpPost("collection")]
-        public IActionResult CreateCompanyCollection([FromBody]
-            IEnumerable<CompanyCreationDto> companyCollection)
+        public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
         {
             var result =
                 _service.CompanyService.CreateCompanyCollection(companyCollection);
-            return CreatedAtRoute("CompanyCollection", new { result.ids },
+            return CreatedAtRoute("CompanyCollection", new
+                {
+                    result.ids
+                },
                 result.companies);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteCompany(Guid id)
+        {
+            _service.CompanyService.DeleteCompany(id, trackChanges: false);
+            return NoContent();
         }
     }
 

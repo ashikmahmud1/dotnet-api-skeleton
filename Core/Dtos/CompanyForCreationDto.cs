@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 namespace Core.Dtos
 {
-    public record CompanyCreationDto
+    public record CompanyForCreationDto
     {
         public string Name { get; init; }
 
@@ -9,6 +9,6 @@ namespace Core.Dtos
 
         public string Country { get; init; }
         
-        public IEnumerable<EmployeeCreationDto> Employees { get; init; }
+        public IEnumerable<EmployeeForCreationDto> Employees { get; init; }
     }
 }

@@ -8,8 +8,9 @@ namespace Core.Interfaces
     {
         IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges);
         CompanyDto GetCompany(Guid companyId, bool trackChanges);
-        CompanyDto CreateCompany(CompanyCreationDto company);
+        CompanyDto CreateCompany(CompanyForCreationDto companyFor);
         IEnumerable<CompanyDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
-        (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection (IEnumerable<CompanyCreationDto> companyCollection);
+        (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection (IEnumerable<CompanyForCreationDto> companyCollection);
+        void DeleteCompany(Guid companyId, bool trackChanges);
     }
 }
