@@ -1,3 +1,4 @@
+using API.ActionFilters;
 using Core.Dtos;
 using Core.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
@@ -27,12 +28,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employeeFor)
         {
-            if (employeeFor is null)
-                return BadRequest("EmployeeForCreationDto object is null");
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
             var employeeToReturn = await _service.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employeeFor, trackChanges: false);
             return CreatedAtRoute("GetEmployeeForCompany", new
             {
@@ -49,10 +47,9 @@ namespace API.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDto employee)
         {
-            if (employee is null)
-                return BadRequest("EmployeeForUpdateDto object is null");
             await _service.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employee,
                 compTrackChanges: false, empTrackChanges: true);
             return NoContent();

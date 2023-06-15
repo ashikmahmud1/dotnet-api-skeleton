@@ -1,3 +1,4 @@
+using API.ActionFilters;
 using API.ModelBinders;
 using Core.Dtos;
 using Core.Interfaces;
@@ -27,10 +28,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto companyFor)
         {
-            if (companyFor is null)
-                return BadRequest("CompanyCreationDto object is null");
             var createdCompany = await _service.CompanyService.CreateCompanyAsync(companyFor);
             return CreatedAtRoute("CompanyById", new
                 {
@@ -65,10 +65,9 @@ namespace API.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto company)
         {
-            if (company is null)
-                return BadRequest("CompanyForUpdateDto object is null");
             await _service.CompanyService.UpdateCompanyAsync(id, company, trackChanges: true);
             return NoContent();
         }

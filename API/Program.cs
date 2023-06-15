@@ -1,3 +1,4 @@
+using API.ActionFilters;
 using API.Extensions;
 using Core.Interfaces;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -31,6 +32,8 @@ builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
 }).AddXmlDataContractSerializerFormatters();
+
+builder.Services.AddScoped<ValidationFilterAttribute>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
