@@ -22,6 +22,7 @@ namespace Infrastructure.Repositories
                 .Search(employeeParameters.SearchTerm)
                 .OrderBy(e => e.Name)
                 .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize).Take(employeeParameters.PageSize)
+                .Sort(employeeParameters.OrderBy)
                 .ToListAsync();
             var count = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).CountAsync();
             return new PagedList<Employee>(employees, count,
