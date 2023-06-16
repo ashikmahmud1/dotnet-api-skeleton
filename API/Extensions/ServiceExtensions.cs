@@ -3,6 +3,8 @@ using Core.Interfaces;
 using Infrastructure.Managers;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
@@ -35,6 +37,17 @@ namespace API.Extensions
         public static void ConfigureSqlContext(this IServiceCollection services,
             IConfiguration configuration) =>
             services.AddDbContext<RepositoryContext>(opts => opts.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+        
+        public static void ConfigureVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(opt =>
+            {
+                opt.ReportApiVersions = true;
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
+        }
     }
 }
 

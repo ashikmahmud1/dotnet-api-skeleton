@@ -28,6 +28,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
+builder.Services.ConfigureVersioning();
+
 builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
