@@ -1,5 +1,6 @@
 using API.ActionFilters;
 using API.Extensions;
+using AspNetCoreRateLimit;
 using Core.Interfaces;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,12 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
 builder.Services.ConfigureVersioning();
+
+builder.Services.AddMemoryCache();
+
+builder.Services.ConfigureRateLimitingOptions();
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
@@ -68,6 +75,10 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.All
 });
+
+app.UseIpRateLimiting();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
