@@ -11,6 +11,6 @@
     <None Remove="Entities\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
   </ItemGroup>
 </Project>

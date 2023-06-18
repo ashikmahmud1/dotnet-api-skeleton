@@ -37,6 +37,10 @@ builder.Services.ConfigureRateLimitingOptions();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddAuthentication();
+
+builder.Services.ConfigureIdentity();
+
 builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
@@ -79,6 +83,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseIpRateLimiting();
 
 app.UseCors("CorsPolicy");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
