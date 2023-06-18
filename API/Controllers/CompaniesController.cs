@@ -2,6 +2,7 @@ using API.ActionFilters;
 using API.ModelBinders;
 using Core.Dtos;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
@@ -14,6 +15,7 @@ namespace API.Controllers
         public CompaniesController(IServiceManager service) => _service = service;
 
         [HttpGet]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetCompanies()
         {
             var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
