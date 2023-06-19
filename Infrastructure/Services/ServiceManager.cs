@@ -1,9 +1,11 @@
 using System;
 using AutoMapper;
+using Core.Configuration;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 namespace Infrastructure.Services
 {
     public sealed class ServiceManager : IServiceManager
@@ -16,7 +18,7 @@ namespace Infrastructure.Services
             ILoggerManager logger,
             IMapper mapper,
             UserManager<User> userManager,
-            IConfiguration configuration)
+            IOptions<JwtConfiguration> configuration)
         {
             _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger, mapper));
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper));

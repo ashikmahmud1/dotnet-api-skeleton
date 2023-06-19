@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using AspNetCoreRateLimit;
+using Core.Configuration;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Managers;
@@ -86,11 +87,10 @@ namespace API.Extensions
                 .AddEntityFrameworkStores<RepositoryContext>()
                 .AddDefaultTokenProviders();
         }
-        public static void ConfigureJWT(this IServiceCollection services, IConfiguration
-            configuration)
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
-            
+
             services.AddAuthentication(opt => {
                     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,5 +108,8 @@ namespace API.Extensions
                     };
                 });
         }
+        public static void AddJwtConfiguration(this IServiceCollection services,
+            IConfiguration configuration) =>
+            services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
     }
 }
